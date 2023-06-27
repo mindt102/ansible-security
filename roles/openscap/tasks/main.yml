@@ -49,7 +49,7 @@
     src: "{{ openscap_install_dir }}.tar.gz"
     dest: "{{ openscap_install_dir }}"
     remote_src: yes
-    creates: "{{ openscap_install_dir }}"
+    # creates: "{{ openscap_install_dir }}"
 
 - name: Create OpenSCAP build directory
   file:
