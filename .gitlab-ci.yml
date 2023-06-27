@@ -6,5 +6,10 @@ run-playbook:
     - chmod 400 ~/.ssh/id_rsa
   script:
     - ansible-playbook main.yml
+  artifacts:
+    paths:
+      - /tmp/xccdf-results.xml
+      - /tmp/arf.xml
+      - /tmp/report.html
   after_script:
     - rm ~/.ssh/id_rsa
