@@ -38,15 +38,16 @@
     url: "{{ openscap_url }}"
     dest: "{{ openscap_install_dir }}.tar.gz"
     mode: 0644
-# - name: Extract OpenSCAP sources
-#   unarchive:
-#     src: "{{ openscap_install_dir }}.tar.gz"
-#     dest: "{{ openscap_install_dir }}"
-#     remote_src: yes
-#     creates: "{{ openscap_install_dir }}"
 
-# - name: Build OpenSCAP
-#   become: true
-#   shell: cmake -DCMAKE_INSTALL_PREFIX=/usr ../ && make && make install
-#   args:
-#     chdir: "{{ openscap_install_dir }}/build"
+- name: Extract OpenSCAP sources
+  unarchive:
+    src: "{{ openscap_install_dir }}.tar.gz"
+    dest: "{{ openscap_install_dir }}"
+    remote_src: yes
+    creates: "{{ openscap_install_dir }}"
+
+- name: Build OpenSCAP
+  become: true
+  shell: cmake -DCMAKE_INSTALL_PREFIX=/usr ../ && make && make install
+  args:
+    chdir: "{{ openscap_install_dir }}/build"
