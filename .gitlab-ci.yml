@@ -1,0 +1,10 @@
+run-playbook:
+  tags:
+    - shell
+  before_script:
+    - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+  script:
+    - ansible-playbook main.yml
+  after_script:
+    - rm ~/.ssh/id_rsa
