@@ -51,6 +51,11 @@
     remote_src: yes
     creates: "{{ openscap_install_dir }}"
 
+- name: Create OpenSCAP build directory
+  file:
+    path: "{{ openscap_install_dir }}/build"
+    state: directory
+
 - name: Build OpenSCAP
   become: true
   shell: cmake -DCMAKE_INSTALL_PREFIX=/usr ../ && make && make install
