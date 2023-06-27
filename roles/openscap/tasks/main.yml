@@ -39,6 +39,11 @@
     dest: "{{ openscap_install_dir }}.tar.gz"
     mode: 0644
 
+- name: Create OpenSCAP directory
+  file:
+    path: "{{ openscap_install_dir }}"
+    state: directory
+
 - name: Extract OpenSCAP sources
   unarchive:
     src: "{{ openscap_install_dir }}.tar.gz"
