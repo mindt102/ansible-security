@@ -1,19 +1,26 @@
-run-playbook:
+run-openscap-scan:
   tags:
     - shell
+  variables:
+    TARGETS: 10.0.0.11
   before_script:
     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
   script:
-    - ssh vagrant@10.0.0.11 -C "oscap -h"|| ansible-playbook main.yml
-    - oscap-ssh --sudo vagrant@10.0.0.11 22 xccdf eval --datastream-id scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml --xccdf-id scap_org.open-scap_cref_ssg-debian11-xccdf.xml --profile xccdf_org.ssgproject.content_profile_anssi_np_nt28_average --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html /usr/local/share/xml/scap/ssg/content/ssg-debian11-ds.xml || exit $(echo $?)
+    - |
+      for TARGET in $TARGETS
+        do
+          echo "${TARGET}"
+        done
+    # - ssh vagrant@10.0.0.11 -C "oscap -h"|| ansible-playbook main.yml
+    # - oscap-ssh --sudo vagrant@10.0.0.11 22 xccdf eval --datastream-id scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml --xccdf-id scap_org.open-scap_cref_ssg-debian11-xccdf.xml --profile xccdf_org.ssgproject.content_profile_anssi_np_nt28_average --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html /usr/local/share/xml/scap/ssg/content/ssg-debian11-ds.xml || exit $(echo $?)
   allow_failure:
     exit_codes: 
       - 2
-  artifacts:
-    paths:
-      - /tmp/xccdf-results.xml
-      - /tmp/arf.xml
-      - /tmp/report.html
+  # artifacts:
+  #   paths:
+  #     - /tmp/xccdf-results.xml
+  #     - /tmp/arf.xml
+  #     - /tmp/report.html
   after_script:
     - rm ~/.ssh/id_rsa
