@@ -11,7 +11,7 @@ run-openscap-scan:
       for TARGET in $TARGETS
         do
           ssh vagrant@$TARGET -C "oscap -h"|| ansible-playbook main.yml
-          oscap-ssh --sudo vagrant@$TARGET 22 xccdf eval --datastream-id scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml --xccdf-id scap_org.open-scap_cref_ssg-debian11-xccdf.xml --profile xccdf_org.ssgproject.content_profile_anssi_np_nt28_average --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html /usr/local/share/xml/scap/ssg/content/ssg-debian11-ds.xml || (e=$? && echo $e && [[ $e -ne 0 && $e -ne 2 ]] && echo e+e && exit $e )
+          oscap-ssh --sudo vagrant@$TARGET 22 xccdf eval --datastream-id scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml --xccdf-id scap_org.open-scap_cref_ssg-debian11-xccdf.xml --profile xccdf_org.ssgproject.content_profile_anssi_np_nt28_average --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html /usr/local/share/xml/scap/ssg/content/ssg-debian11-ds.xml || (e=$? && echo $e && if [[ $e -ne 0 && $e -ne 2 ]]; then exit $e fi)
         done
   allow_failure:
     exit_codes: 2
