@@ -6,7 +6,6 @@ run-playbook:
     - chmod 400 ~/.ssh/id_rsa
   script:
     - ssh vagrant@10.0.0.11 -C "oscap -h"|| ansible-playbook main.yml
-    - exit 2
     - oscap-ssh --sudo vagrant@10.0.0.11 22 xccdf eval --datastream-id scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml --xccdf-id scap_org.open-scap_cref_ssg-debian11-xccdf.xml --profile xccdf_org.ssgproject.content_profile_anssi_np_nt28_average --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html /usr/local/share/xml/scap/ssg/content/ssg-debian11-ds.xml
   allow_failure:
     exit_codes: 2
