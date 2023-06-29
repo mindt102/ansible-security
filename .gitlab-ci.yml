@@ -7,6 +7,7 @@ run-openscap-scan:
     - mkdir -p ~/.ssh
     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
+    - rm known_hosts
   script:
     - |
       for TARGET in $TARGETS
