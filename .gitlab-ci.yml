@@ -4,7 +4,7 @@ run-openscap-scan:
   variables:
     TARGETS: 10.0.0.11
   before_script:
-    - ls -l "$SSH_PRIVATE_KEY"
+    - mkdir -p ~/.ssh
     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
   script:
