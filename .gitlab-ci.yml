@@ -2,7 +2,7 @@ run-openscap-scan:
   tags:
     - shell
   variables:
-    TARGETS: 10.0.0.11
+    TARGETS: "10.0.0.11 10.0.0.12"
   before_script:
     - mkdir -p ~/.ssh
     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
@@ -19,4 +19,4 @@ run-openscap-scan:
     paths:
       - reports
   after_script:
-    # - rm ~/.ssh/id_rsa
+    - rm ~/.ssh/id_rsa
