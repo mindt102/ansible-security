@@ -10,7 +10,7 @@ run-openscap-scan:
     - rm -f ~/.ssh/known_hosts
   script:
     # - ansible-playbook main.yml
-    - "chmod +x ./script.sh; ./script.sh"
+    - "chmod +x ./scan.sh; ./scan.sh"
   artifacts:
     paths:
       - reports
