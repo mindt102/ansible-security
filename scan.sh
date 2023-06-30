@@ -8,6 +8,6 @@ do
         --oval-results --results reports/$host/xccdf-results.xml \
         --results-arf reports/$host/arf.xml \
         --report reports/$host/report.html \ 
-        /usr/local/share/xml/scap/ssg/content/ssg-debian11-ds.xml \ 
-        || (e=$? && if [[ $e -ne 2 ]]; then exit $e; fi )
+        /usr/local/share/xml/scap/ssg/content/ssg-debian11-ds.xml || \
+            (e=$? && if [[ $e -ne 2 ]]; then exit $e; fi )
 done
