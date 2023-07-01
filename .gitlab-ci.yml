@@ -1,16 +1,13 @@
 run-openscap-scan:
   tags:
     - shell
-  variables:
-    TARGETS: "10.0.0.11 10.0.0.12"
   before_script:
     - mkdir -p ~/.ssh
     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
     - rm -f ~/.ssh/known_hosts
   script:
-    # - ansible-playbook main.yml
-    - "chmod +x ./scan.sh; ./scan.sh"
+    - ansible-playbook main.yml
   artifacts:
     paths:
       - reports

@@ -1,0 +1,8 @@
+- name: Copy SCAP content for ubuntu
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/share/xml/scap/ssg/content/"
+    mode: 0644
+  with_fileglob:
+    - "roles/openscap/files/ssg-ubuntu*"
+  when: ansible_distribution == "Ubuntu"

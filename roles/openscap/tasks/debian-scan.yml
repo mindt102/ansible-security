@@ -1,0 +1,12 @@
+- name: Copy SCAP content for debian
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp/"
+    mode: 0644
+  with_fileglob:
+    - "roles/openscap/files/ssg-debian*"
+  register: ssg_content
+# - name: Run OpenSCAP scan
+#   become: true
+#   shell: "oscap xccdf eval --datastream-id scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml --xccdf-id scap_org.open-scap_cref_ssg-debian11-xccdf.xml --profile xccdf_org.ssgproject.content_profile_anssi_np_nt28_average --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html /tmp/ssg-debian11-ds.xml"
+#   when: ssg_content.stat.exists
