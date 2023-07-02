@@ -5,11 +5,15 @@
     mode: 0644
   with_fileglob:
     - "/usr/local/share/xml/scap/ssg/content/ssg-debian*"
-  register: ssg_content
 
 - name: Run OpenSCAP scan
   become: true
-  shell: "oscap xccdf eval --datastream-id scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml --xccdf-id scap_org.open-scap_cref_ssg-debian11-xccdf.xml --profile xccdf_org.ssgproject.content_profile_anssi_np_nt28_average --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html /tmp/ssg-debian11-ds.xml"
+  vars:
+    datastream_id: "scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml"
+    xccdf_id: "scap_org.open-scap_cref_ssg-debian11-xccdf.xml"
+    profile: "xccdf_org.ssgproject.content_profile_anssi_np_nt28_average"
+    datastream_path: "/tmp/ssg-debian11-ds.xml"
+  shell: "oscap xccdf eval --datastream-id {{ datastream_id }} --xccdf-id {{ xccdf_id }} --profile {{ profile }} --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html {{ datastream_path }}"
   register: result
   failed_when: ( result.rc not in [ 0, 2 ] )
 
