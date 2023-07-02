@@ -12,7 +12,7 @@
     datastream_id: "scap_org.open-scap_datastream_from_xccdf_ssg-ubuntu2204-xccdf.xml"
     xccdf_id: "scap_org.open-scap_cref_ssg-ubuntu2204-xccdf.xml"
     profile: "xccdf_org.ssgproject.content_profile_standard"
-    datastream_path: "ssg-ubuntu2204-ds.xml"
+    datastream_path: "/tmp/ssg-ubuntu2204-ds.xml"
   shell: "oscap xccdf eval --datastream-id {{ datastream_id }} --xccdf-id {{ xccdf_id }} --profile {{ profile }} --oval-results --results /tmp/xccdf-results.xml --results-arf /tmp/arf.xml --report /tmp/report.html {{ datastream_path }}"
   register: result
   failed_when: ( result.rc not in [ 0, 2 ] )
