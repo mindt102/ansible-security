@@ -1,21 +1,15 @@
-update-openscap:
+run-openscap-scan:
   tags:
-    - docker
-  image: debian:11
+    - shell
+  before_script:
+    - mkdir -p ~/.ssh
+    - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+    - rm -f ~/.ssh/known_hosts
   script:
-    - echo "Hello world!"
-# run-openscap-scan:
-#   tags:
-#     - shell
-#   before_script:
-#     - mkdir -p ~/.ssh
-#     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
-#     - chmod 400 ~/.ssh/id_rsa
-#     - rm -f ~/.ssh/known_hosts
-#   script:
-#     - ansible-playbook main.yml
-#   artifacts:
-#     paths:
-#       - reports
-#   after_script:
-#     - rm ~/.ssh/id_rsa
+    - ansible-playbook playbooks/main.yml
+  artifacts:
+    paths:
+      - reports
+  after_script:
+    - rm ~/.ssh/id_rsa
