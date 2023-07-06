@@ -1,3 +1,4 @@
-- name: Build Scap Security Guide
-  import_tasks: build.yml
-  when: ansible_distribution == "Debian"
+- name: Manage dependencies
+  hosts: localhost
+  roles:
+    - role: "roles/scap-security-guide"
