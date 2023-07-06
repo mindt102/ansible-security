@@ -1,4 +1,10 @@
-run-openscap-scan:
+update-dependencies:
+  tags:
+    - docker
+  script:
+    - ansible-playbook playbooks/dependencies/main.yml
+
+run-security-scan:
   tags:
     - shell
   before_script:
@@ -8,7 +14,6 @@ run-openscap-scan:
     - rm -f ~/.ssh/known_hosts
   script:
     - ansible-playbook playbooks/security-scan/main.yml
-    - ansible-playbook playbooks/dependencies/main.yml
   artifacts:
     paths:
       - reports
