@@ -1,9 +1,10 @@
 update-dependencies:
   tags:
     - docker
+  image: debian:11
   script:
-    - ansible-playbook playbooks/dependencies/main.yml
-
+    # - ansible-playbook playbooks/dependencies/main.yml
+    - ./scripts/install-ssg.sh
 run-security-scan:
   tags:
     - shell
