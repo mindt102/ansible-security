@@ -11,7 +11,7 @@ update-dependencies:
     # Download SCAP Security Guide source code
     - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
     - ssg_url="https://github.com/ComplianceAsCode/content/releases/download/v$ssg_version/scap-security-guide-$ssg_version.tar.bz2"
-    - curl -so /tmp/scap-security-guide-$ssg_version.tar.bz2 "$ssg_url"
+    - curl -so /tmp/scap-security-guide-$ssg_version.tar.bz2 -L "$ssg_url"
     - ls -la /tmp/scap-security-guide-$ssg_version.tar.bz2
     - tar -xjf /tmp/scap-security-guide-$ssg_version.tar.bz2 -C /tmp
 
