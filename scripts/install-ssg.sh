@@ -1,4 +1,5 @@
 # # Install SCAP Security Guide dependencies
+apt-get update
 apt-get install libopenscap8 # libxml2-utils ninja-build xsltproc
 
 # # Download SCAP Security Guide source code
