@@ -6,12 +6,13 @@ update-dependencies:
     # - ansible-playbook playbooks/dependencies/main.yml
     # - chmod +x ./scripts/install-ssg.sh && ./scripts/install-ssg.sh
     - apt-get update
-    - apt-get install -y curl # libxml2-utils # ninja-build xsltproc libopenscap8
+    - apt-get install -y curl bzip2 # libxml2-utils # ninja-build xsltproc libopenscap8
 
     # Download SCAP Security Guide source code
     - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     - ssg_url="https://github.com/ComplianceAsCode/content/releases/download/$ssg_version/scap-security-guide-$ssg_version.tar.bz2"
     - curl -so /tmp/scap-security-guide-$ssg_version.tar.bz2 "$ssg_url"
+    - ls -la /tmp/scap-security-guide-$ssg_version.tar.bz2
     - tar -xjf /tmp/scap-security-guide-$ssg_version.tar.bz2 -C /tmp
 
     # Build SCAP Security Guide
