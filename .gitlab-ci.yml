@@ -4,19 +4,19 @@ update-dependencies:
   image: debian:11
   script:
     # - ansible-playbook playbooks/dependencies/main.yml
-    - ./scripts/install-ssg.sh
-run-security-scan:
-  tags:
-    - shell
-  before_script:
-    - mkdir -p ~/.ssh
-    - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
-    - chmod 400 ~/.ssh/id_rsa
-    - rm -f ~/.ssh/known_hosts
-  script:
-    - ansible-playbook playbooks/security-scan/main.yml
-  artifacts:
-    paths:
-      - reports
-  after_script:
-    - rm ~/.ssh/id_rsa
+    - chmod +x ./scripts/install-ssg.sh && ./scripts/install-ssg.sh
+# run-security-scan:
+#   tags:
+#     - shell
+#   before_script:
+#     - mkdir -p ~/.ssh
+#     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
+#     - chmod 400 ~/.ssh/id_rsa
+#     - rm -f ~/.ssh/known_hosts
+#   script:
+#     - ansible-playbook playbooks/security-scan/main.yml
+#   artifacts:
+#     paths:
+#       - reports
+#   after_script:
+#     - rm ~/.ssh/id_rsa
