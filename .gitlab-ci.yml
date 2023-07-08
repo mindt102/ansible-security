@@ -6,8 +6,8 @@ update-dependencies:
     # - ansible-playbook playbooks/dependencies/main.yml
     # - chmod +x ./scripts/install-ssg.sh && ./scripts/install-ssg.sh
     - apt-get update
-    - apt-get install -y curl bzip2 cmake python3-dev libxml2-utils ninja-build xsltproc # libopenscap8
-    - pip install pyyaml
+    - apt-get install -y curl bzip2 cmake python3-dev python3-yaml libxml2-utils ninja-build xsltproc # libopenscap8
+    # - pip install pyyaml
 
     # Download SCAP Security Guide source code
     - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
