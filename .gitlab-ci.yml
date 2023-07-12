@@ -13,21 +13,20 @@ trigger_oscap:
     include: build_dependencies/oscap.yml
   rules:
     - when: always
-
-run-security-scan:
-  stage: scan
-  # tags:
-  #   - shell
-  before_script:
-    - mkdir -p ~/.ssh
-    - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
-    - chmod 400 ~/.ssh/id_rsa
-    # - rm -f ~/.ssh/known_hosts
-  needs: ["trigger_oscap"]
-  script:
-    - ansible-playbook playbooks/security-scan/main.yml
-  artifacts:
-    paths:
-      - reports
-  # after_script:
-  #   - rm ~/.ssh/id_rsa
+# run-security-scan:
+#   stage: scan
+#   # tags:
+#   #   - shell
+#   before_script:
+#     - mkdir -p ~/.ssh
+#     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
+#     - chmod 400 ~/.ssh/id_rsa
+#     # - rm -f ~/.ssh/known_hosts
+#   needs: ["trigger_oscap"]
+#   script:
+#     - ansible-playbook playbooks/security-scan/main.yml
+#   artifacts:
+#     paths:
+#       - reports
+# after_script:
+#   - rm ~/.ssh/id_rsa
