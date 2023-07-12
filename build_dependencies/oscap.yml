@@ -3,6 +3,11 @@ stages:
   - test
   - deploy
 
+default:
+  image: debian:11
+  tags:
+    - docker
+
 build_oscap:
   stage: build
   script:
