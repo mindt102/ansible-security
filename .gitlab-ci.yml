@@ -12,6 +12,12 @@ trigger_oscap:
   trigger:
     include: build_dependencies/oscap.yml
   when: always
+
+run-security-scan:
+  stage: scan
+  needs: ["trigger_oscap"]
+  script:
+    - echo "Run security scan"
 # run-security-scan:
 #   stage: scan
 #   # tags:
