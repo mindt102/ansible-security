@@ -10,8 +10,8 @@ default:
   tags:
     - docker
 
-vars:
-  - openscap_version: "1.3.7"
+variables:
+  openscap_version: "1.3.7"
 
 build_oscap:
   stage: build
