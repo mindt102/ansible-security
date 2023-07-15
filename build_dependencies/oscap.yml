@@ -17,7 +17,7 @@ build_oscap:
   stage: build
   script:
     - apt update
-    - apt install curl
+    - apt install -y curl
     - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     - echo $openscap_version
 #   artifacts:
