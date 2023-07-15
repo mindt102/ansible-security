@@ -1,7 +1,7 @@
+include:
+  - local: build_dependencies/oscap.yml
+
 stages:
-  - build
-  - test
-  - deploy
   - scan
 
 default:
@@ -10,9 +10,6 @@ default:
     pull_policy: if-not-present
   tags:
     - docker
-
-include:
-  - local: build_dependencies/oscap.yml
 
 # trigger_oscap:
 #   stage: triggers
