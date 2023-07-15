@@ -11,7 +11,9 @@ default:
 build_oscap:
   stage: build
   script:
-    - ./test.sh
+    - pwd
+    - ls -la
+    - build_dependencies/test.sh
   artifacts:
     paths:
       - oscap_${openscap_version}.deb
