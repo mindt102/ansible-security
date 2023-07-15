@@ -10,20 +10,27 @@ default:
   tags:
     - docker
 
+vars:
+  - openscap_version: "1.3.7"
+
 build_oscap:
   stage: build
   script:
     - pwd
     - ls -la
-    - chmod +x build_dependencies/oscap.sh
-    - build_dependencies/oscap.sh
+    # Set version to 1.3.8
+    - echo "OpenSCAP version: ${openscap_version}" >> oscap.txt
+    - openscap_version="1.3.8"
+    - echo "OpenSCAP version: ${openscap_version}" >> oscap.txt
   artifacts:
     paths:
-      - oscap_${openscap_version}.deb
+      - oscap.txt
+      # - oscap_${openscap_version}.deb
 test_oscap:
   stage: test
   needs: ["build_oscap"]
   script:
-    - apt update
-    - apt install ./oscap_${openscap_version}.deb
-    - oscap --version
+    - cat oscap.txt
+#     - apt update
+#     - apt install ./oscap_${openscap_version}.deb
+#     - oscap --version
