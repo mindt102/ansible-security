@@ -1,8 +1,11 @@
 include:
   - local: build_dependencies/oscap.yml
 
-# stages:
-#   - scan
+stages:
+  - build
+  - test
+  - deploy
+  - scan
 
 default:
   image:
@@ -17,10 +20,10 @@ default:
 #     strategy: depend
 #   when: always
 
-# run-security-scan:
-#   stage: scan
-#   script:
-#     - echo "Run security scan"
+run-security-scan:
+  stage: scan
+  script:
+    - echo "Run security scan"
 # run-security-scan:
 #   stage: scan
 #   # tags:

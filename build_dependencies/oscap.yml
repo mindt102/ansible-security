@@ -22,7 +22,7 @@ build_oscap:
       echo "No new version of OpenSCAP is available: $openscap_version";
       exit 0;
       fi'
-    - echo "$openscap_version" > new_version.txt
+    - echo "$openscap_version" > version.txt
     - 'echo "New version of OpenSCAP is available: $openscap_version"'
 
     # Install build dependencies
@@ -63,13 +63,13 @@ build_oscap:
     - mv /tmp/oscap_${openscap_version}.deb oscap_${openscap_version}.deb
   artifacts:
     paths:
-      - new_version.txt
+      - version.txt
       - oscap_${openscap_version}.deb
 test_oscap:
   stage: test
   needs: ["build_oscap"]
   script:
-    - if [ ! -f new_version.txt ]; then
+    - if [ ! -f version.txt ]; then
       echo "No new version of OpenSCAP is available";
       exit 0;
       fi
