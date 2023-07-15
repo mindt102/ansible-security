@@ -4,9 +4,12 @@ stages:
   - deploy
 
 default:
-  image: debian:11
+  image:
+    name: debian:11
+    pull_policy: if-not-present
   tags:
     - docker
+  become: true
 
 build_oscap:
   stage: build
