@@ -65,6 +65,7 @@ build_oscap:
     - dpkg-deb --build /tmp/oscap_${openscap_version}
     - echo "$openscap_version" > version.txt
     - mv /tmp/oscap_${openscap_version}.deb .
+    - ls -la
   artifacts:
     paths:
       - version.txt
