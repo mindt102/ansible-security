@@ -41,7 +41,7 @@ build_oscap:
 
     # # Create deb package
     # - mkdir -p /tmp/oscap_${openscap_version}/DEBIAN
-    # - 'printf "Package: oscap\nVersion: ${openscap_version}\nArchitecture: amd64\n" > /tmp/oscap_${openscap_version}/DEBIAN/control'
+    # - 'printf "Package: oscap\nVersion: ${openscap_version}\nArchitecture: amd64\nDepends: libxml2, libxslt1-dev, libxmlsec1, libxmlsec1-openssl, libcurl4-openssl-dev, librpm-dev, libgconf2-dev, libyaml-dev\n" > /tmp/oscap_${openscap_version}/DEBIAN/control'
 
     # - mkdir -p /tmp/oscap_${openscap_version}/usr/bin
     # - cp /tmp/openscap-${openscap_version}/build/utils/oscap /tmp/oscap_${openscap_version}/usr/bin
@@ -62,8 +62,8 @@ build_oscap:
     # - dpkg-deb --build /tmp/oscap_${openscap_version}
     - openscap_version="1.3.7" # TODO: Remove this line
     - echo "$openscap_version" > version.txt
-    - touch /tmp/oscap_${openscap_version}.deb
-    - mv /tmp/oscap_${openscap_version}.deb .
+    # - touch /tmp/oscap_${openscap_version}.deb
+    # - mv /tmp/oscap_${openscap_version}.deb .
     - ls -la
   artifacts:
     paths:
@@ -80,5 +80,20 @@ test_oscap:
     - openscap_version=$(cat version.txt)
     - 'echo "New version of OpenSCAP is available: $openscap_version"'
     - apt update
-    # - apt install ./oscap_${openscap_version}.deb
-    # - oscap --version
+    - apt install -f ./oscap_${openscap_version}.deb
+    - oscap --version
+deploy_oscap:
+  stage: deploy
+  needs: ["test_oscap"]
+  script:
+    - if [ ! -f version.txt ]; then
+      echo "No new version of OpenSCAP is available";
+      exit 0;
+      fi
+    - openscap_version=$(cat version.txt)
+    - 'echo "New version of OpenSCAP is available: $openscap_version"'
+    - git config --global user.email "gitlab-ci@localhost"
+    - git config --global user.name "GitLab CI"
+    - git add version.txt oscap_${openscap_version}.deb
+    - git commit -m "Update OpenSCAP to version ${openscap_version}"
+    - git push

@@ -1,5 +1,5 @@
-include:
-  - local: build_dependencies/oscap.yml
+variables:
+  GIT_DEPTH: 10
 
 stages:
   - build
@@ -13,6 +13,10 @@ default:
     pull_policy: if-not-present
   tags:
     - docker
+
+include:
+  - local: build_dependencies/oscap.yml
+
 # trigger_oscap:
 #   stage: triggers
 #   trigger:
