@@ -7,12 +7,15 @@ default:
   tags:
     - docker
 
-trigger_oscap:
-  stage: triggers
-  trigger:
-    include: build_dependencies/oscap.yml
-    strategy: depend
-  when: always
+include:
+  - local: build_dependencies/oscap.yml
+
+# trigger_oscap:
+#   stage: triggers
+#   trigger:
+#     include: build_dependencies/oscap.yml
+#     strategy: depend
+#   when: always
 
 run-security-scan:
   stage: scan
