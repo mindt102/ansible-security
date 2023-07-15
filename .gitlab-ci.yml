@@ -1,8 +1,8 @@
 include:
   - local: build_dependencies/oscap.yml
 
-stages:
-  - scan
+# stages:
+#   - scan
 
 default:
   image:
@@ -10,7 +10,6 @@ default:
     pull_policy: if-not-present
   tags:
     - docker
-
 # trigger_oscap:
 #   stage: triggers
 #   trigger:
@@ -18,10 +17,10 @@ default:
 #     strategy: depend
 #   when: always
 
-run-security-scan:
-  stage: scan
-  script:
-    - echo "Run security scan"
+# run-security-scan:
+#   stage: scan
+#   script:
+#     - echo "Run security scan"
 # run-security-scan:
 #   stage: scan
 #   # tags:
