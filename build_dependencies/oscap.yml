@@ -18,9 +18,9 @@ build_oscap:
   script:
     - pwd
     - ls -la
-    - echo "OpenSCAP version: ${openscap_version}" >> oscap.txt
+    - 'echo "OpenSCAP version: ${openscap_version}" >> oscap.txt'
     - openscap_version="1.3.8"
-    - echo "OpenSCAP version: ${openscap_version}" >> oscap.txt
+    - 'echo "OpenSCAP version: ${openscap_version}" >> oscap.txt'
   artifacts:
     paths:
       - oscap.txt
