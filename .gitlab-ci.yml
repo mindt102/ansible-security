@@ -16,7 +16,6 @@ trigger_oscap:
 
 run-security-scan:
   stage: scan
-  needs: ["build_dependencies/oscap.yml"]
   script:
     - echo "Run security scan"
 # run-security-scan:
