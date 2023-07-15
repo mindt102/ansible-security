@@ -10,6 +10,9 @@ default:
   tags:
     - docker
 
+variables:
+  GIT_SSL_NO_VERIFY: 1
+
 build_oscap:
   stage: build
   script:
