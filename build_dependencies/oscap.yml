@@ -64,7 +64,7 @@ build_oscap:
   artifacts:
     paths:
       - version.txt
-      - oscap_${openscap_version}.deb
+      - oscap_*.deb
 test_oscap:
   stage: test
   needs: ["build_oscap"]
