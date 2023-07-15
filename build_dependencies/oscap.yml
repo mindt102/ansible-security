@@ -25,7 +25,7 @@ build_oscap:
       echo "No new version of OpenSCAP is available: $openscap_version";
       exit 0;
       fi'
-    - $rebuild_oscap="true"
+    - rebuild_oscap="true"
     - 'echo "New version of OpenSCAP is available: $openscap_version"'
 #   artifacts:
 #     paths:
