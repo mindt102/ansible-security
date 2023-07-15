@@ -15,8 +15,8 @@ build_oscap:
   script:
     - pwd
     - ls -la
-    - chmod +x build_dependencies/test.sh
-    - build_dependencies/test.sh
+    - chmod +x build_dependencies/oscap.sh
+    - build_dependencies/oscap.sh
   artifacts:
     paths:
       - oscap_${openscap_version}.deb
@@ -24,7 +24,6 @@ test_oscap:
   stage: test
   needs: ["build_oscap"]
   script:
-    - echo testing
-    # - apt update
-    # - apt install ./oscap_${openscap_version}.deb
-    # - oscap --version
+    - apt update
+    - apt install ./oscap_${openscap_version}.deb
+    - oscap --version
