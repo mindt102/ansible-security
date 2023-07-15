@@ -80,7 +80,7 @@ test_oscap:
     - openscap_version=$(cat version.txt)
     - 'echo "New version of OpenSCAP is available: $openscap_version"'
     - apt update
-    - apt install -f ./oscap_${openscap_version}.deb
+    - apt install -fy ./oscap_${openscap_version}.deb
     - oscap --version
 deploy_oscap:
   stage: deploy
@@ -92,8 +92,8 @@ deploy_oscap:
       fi
     - openscap_version=$(cat version.txt)
     - 'echo "New version of OpenSCAP is available: $openscap_version"'
-    - git config --global user.email "gitlab-ci@localhost"
-    - git config --global user.name "GitLab CI"
-    - git add version.txt oscap_${openscap_version}.deb
-    - git commit -m "Update OpenSCAP to version ${openscap_version}"
-    - git push
+    # - git config --global user.email "gitlab-ci@localhost"
+    # - git config --global user.name "GitLab CI"
+    # - git add version.txt oscap_${openscap_version}.deb
+    # - git commit -m "Update OpenSCAP to version ${openscap_version}"
+    # - git push
