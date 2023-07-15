@@ -11,8 +11,7 @@ trigger_oscap:
   stage: triggers
   trigger:
     include: build_dependencies/oscap.yml
-  rules:
-    - when: always
+  when: always
 # run-security-scan:
 #   stage: scan
 #   # tags:

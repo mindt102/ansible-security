@@ -1,7 +1,7 @@
 # Install SCAP Security Guide dependencies
 apt-get update
 apt-get install -y curl bzip2 cmake python3-pip libxml2-utils ninja-build xsltproc # libopenscap8
-pip install jinja2 pyyaml pytest pytest-cov json2html yamlpath mypy openpyxl pandas cmakelint sphinx sphinxcontrib-jinjadomain
+pip install jinja2 pyyaml pytest pytest-cov json2html yamlpath mypy openpyxl pandas cmakelint sphinx sphinxcontrib-jinjadomain sphinx_rtd_theme myst_parser
 
 # Download SCAP Security Guide source code
 ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
