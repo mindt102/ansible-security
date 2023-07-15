@@ -12,6 +12,7 @@ default:
 
 variables:
   openscap_version: ""
+  rebuild_oscap: "false"
 
 build_oscap:
   stage: build
@@ -19,7 +20,12 @@ build_oscap:
     - apt update
     - apt install -y curl
     - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-    - echo $openscap_version
+    - current_oscap_version="1.3.7"
+    - 'if [ "$openscap_version" == "$current_oscap_version" ]; then
+      echo "No new version of OpenSCAP is available: $openscap_version";
+      exit 0;
+      fi'
+    - 'echo "New version of OpenSCAP is available: $openscap_version"''
 #   artifacts:
 #     paths:
 #       - oscap.txt
