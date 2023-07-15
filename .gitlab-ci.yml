@@ -1,9 +1,13 @@
 stages:
-  - triggers
+  - build
+  - test
+  - deploy
   - scan
 
 default:
-  image: debian:11
+  image:
+    name: debian:11
+    pull_policy: if-not-present
   tags:
     - docker
 
