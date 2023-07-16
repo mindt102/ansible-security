@@ -46,9 +46,9 @@ trigger_oscap:
     strategy: depend
   needs:
     - check_oscap
-  rules:
-    - if: '$update_oscap == "true"'
-      when: always
+  # rules:
+  #   - if: '$update_oscap == "true"'
+  #     when: always
 
 run-security-scan:
   stage: scan
