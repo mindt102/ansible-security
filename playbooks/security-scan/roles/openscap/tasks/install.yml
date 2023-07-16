@@ -61,8 +61,8 @@
 #   args:
 #     chdir: "{{ openscap_install_dir }}/build"
 
-- name: Download oscap debian package
-  git:
-    repo: "https://oauth2:{{ lookup('env', 'OSCAP_ACCESS_TOKEN') }}@gitlab.example.com/root/oscap.git"
-    dest: "/tmp"
-    version: "lookup('env', 'oscap_version')"
+- name: Copy oscap debian package
+  copy:
+    src: "oscap/oscap_{{ lookup('env', 'oscap_version') }}.deb"
+    dest: "/tmp/"
+    mode: 0644
