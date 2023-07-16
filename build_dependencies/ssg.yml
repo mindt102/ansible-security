@@ -56,7 +56,10 @@ build_ssg:
     - cp /tmp/scap-security-guide-$ssg_version/build/ssg-debian11* /tmp/debian11/
 
     # Test Scan
-    - oscap xccdf eval --datastream-id ${debian_datastream_id} --xccdf-id ${debian_xccdf_id} --profile ${debian_profile} debian11/ssg-debian11-ds.xml || [[ $? == 2 ]]
+    - pwd
+    - ls -la
+    - ls -la /tmp/debian11/
+    - oscap xccdf eval --datastream-id ${debian_datastream_id} --xccdf-id ${debian_xccdf_id} --profile ${debian_profile} /tmp/debian11/ssg-debian11-ds.xml || [[ $? == 2 ]]
 
     # Push new version of SSG to GitLab
     - cd /tmp
