@@ -69,6 +69,7 @@ build_oscap:
 
     - echo "$openscap_version" > artifacts/version.txt
     - mv /tmp/oscap_${openscap_version}.deb artifacts
+    - pwd
     - ls -la artifacts
   artifacts:
     paths:
