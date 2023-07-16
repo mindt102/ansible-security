@@ -10,7 +10,7 @@ default:
     - docker
 
 build_ssg:
-  stage: build
+  stage: build_ssg
   variables:
     debian_datastream_id: "scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml"
     debian_xccdf_id: "scap_org.open-scap_cref_ssg-debian11-xccdf.xml"
@@ -62,7 +62,7 @@ build_ssg:
       - 2
 
 deploy_ssg:
-  stage: deploy
+  stage: deploy_ssg
   script:
     - 'if [ ! -f version.txt ]; then
       echo "No new version of SSG is available";
