@@ -1,8 +1,5 @@
 stages:
   - update_oscap
-  # - build_oscap
-  # - test_oscap
-  # - deploy_oscap
 
 default:
   image:
@@ -74,45 +71,3 @@ build_oscap:
     - git commit -m "Update oscap to version ${openscap_version}"
     - git tag -a "v${openscap_version}" -m "Update oscap to version ${openscap_version}"
     - git push origin v${openscap_version}
-#     - mv /tmp/oscap_${openscap_version}.deb .
-#   artifacts:
-#     paths:
-#       - version.txt
-#       - oscap_*.deb
-# test_oscap:
-#   stage: test_oscap
-#   script:
-#     - if [ ! -f version.txt ]; then
-#       echo "No new version of OpenSCAP is available";
-#       exit 0;
-#       fi
-#     - openscap_version=$(cat version.txt)
-#     - 'echo "New version of OpenSCAP is available: $openscap_version"'
-#     - apt updates
-#     - apt install -fy ./oscap_${openscap_version}.deb
-#     - oscap --version
-# deploy_oscap:
-#   stage: deploy_oscap
-#   script:
-#     - if [ ! -f version.txt ]; then
-#       echo "No new version of OpenSCAP is available";
-#       exit 0;
-#       fi
-#     - 'echo "New version of OpenSCAP is available: $openscap_version"'
-
-#     - openscap_version=$(cat version.txt)
-
-#     - apt update; apt install -y git
-#     - cp oscap_${openscap_version}.deb /tmp
-#     - cd /tmp
-#     - pwd
-#     - ls -la
-#     - git init
-#     - git remote add origin https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git
-#     - git config user.email "ci-bot@gitlab.example.com"
-#     - git config user.name "ci-bot"
-
-#     - git add oscap_${openscap_version}.deb
-#     - git commit -m "Update oscap to version ${openscap_version}"
-#     - git tag -a "v${openscap_version}" -m "Update oscap to version ${openscap_version}"
-#     - git push origin v${openscap_version}

@@ -1,7 +1,5 @@
 stages:
   - update_ssg
-  # - build_ssg
-  # - deploy_ssg
 
 default:
   image:
@@ -56,9 +54,6 @@ build_ssg:
     - cp /tmp/scap-security-guide-$ssg_version/build/ssg-debian11* /tmp/debian11/
 
     # Test Scan
-    - pwd
-    - ls -la
-    - ls -la /tmp/debian11/
     - oscap xccdf eval --datastream-id ${debian_datastream_id} --xccdf-id ${debian_xccdf_id} --profile ${debian_profile} /tmp/debian11/ssg-debian11-ds.xml || [[ $? == 2 ]]
 
     # Push new version of SSG to GitLab
@@ -72,31 +67,3 @@ build_ssg:
     - git commit -m "Update SSG to version $ssg_version"
     - git tag -a "v$ssg_version" -m "Update SSG to version $ssg_version"
     - git push origin v$ssg_version
-#   artifacts:
-#     paths:
-#       - version.txt
-#       - debian11/
-
-# deploy_ssg:
-#   stage: deploy_ssg
-#   script:
-#     - 'if [ ! -f version.txt ]; then
-#       echo "No new version of SSG is available";
-#       exit 0;
-#       fi'
-#     - 'echo "New version of SSG is available: $ssg_version"'
-#     - ssg_version=$(cat version.txt)
-
-#     - apt update; apt install -y git
-#     - cp -r debian11/ /tmp/debian11/
-#     - cd /tmp
-#     - pwd; ls -la
-#     - git init
-#     - git remote add origin https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git
-#     - git config user.email "ci-bot@gitlab.example.com"
-#     - git config user.name "ci-bot"
-
-#     - git add debian11/*
-#     - git commit -m "Update SSG to version $ssg_version"
-#     - git tag -a "v$ssg_version" -m "Update SSG to version $ssg_version"
-#     - git push origin v$ssg_version
