@@ -22,7 +22,7 @@ build_ssg:
       exit 0;
       fi'
     - echo $ssg_version > version.txt
-    - echo "New version of SSG is available: $ssg_version"
+    - 'echo "New version of SSG is available: $ssg_version"'
 
     # Install SSG dependencies
     - apt install -y bzip2 cmake python3-pip libxml2-utils ninja-build xsltproc
