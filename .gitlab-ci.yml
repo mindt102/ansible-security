@@ -4,7 +4,7 @@ variables:
 
 stages:
   - check
-  - trigger
+  - triggers
   - build
   - test
   - deploy
@@ -40,7 +40,7 @@ check_oscap:
       dotenv: oscap.env
 
 trigger_oscap:
-  stage: trigger
+  stage: triggers
   trigger:
     include: build_dependencies/oscap.yml
     strategy: depend
