@@ -33,6 +33,7 @@ run-security-scan:
     - cp -f "$ANSIBLE_CFG" /etc/ansible/ansible.cfg
     - cp -f "$ANSIBLE_INVENTORY" inventory
   script:
+    - cat playbooks/security-scan/roles/openscap/tasks/main.yml
     - apk update
     - apk add curl git
 
