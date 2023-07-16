@@ -1,6 +1,6 @@
 stages:
-  - build
-  - deploy
+  - build_ssg
+  - deploy_ssg
 
 default:
   image:
@@ -11,6 +11,10 @@ default:
 
 build_ssg:
   stage: build
+  variables:
+    debian_datastream_id: "scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml"
+    debian_xccdf_id: "scap_org.open-scap_cref_ssg-debian11-xccdf.xml"
+    debian_profile: "xccdf_org.ssgproject.content_profile_anssi_np_nt28_average"
   script:
     # Check if new version of SSG is available
     - apt update
@@ -45,10 +49,17 @@ build_ssg:
     - make -C /tmp/scap-security-guide-$ssg_version/build -j4 debian11
     - mkdir -p debian11/
     - cp /tmp/scap-security-guide-$ssg_version/build/ssg-debian11* debian11/
+
+    # Test Scan
+    - oscap xccdf eval --datastream-id ${debian_datastream_id} --xccdf-id ${debian_xccdf_id} --profile ${debian_profile} debian11/ssg-debian11-ds.xml
   artifacts:
     paths:
       - version.txt
       - debian11/
+  allow_failure:
+    exit_codes:
+      - 0
+      - 2
 
 deploy_ssg:
   stage: deploy

@@ -1,7 +1,7 @@
 stages:
-  - build
-  - test
-  - deploy
+  - build_oscap
+  - test_oscap
+  - deploy_oscap
 
 default:
   image:
@@ -11,7 +11,7 @@ default:
     - docker
 
 build_oscap:
-  stage: build
+  stage: build_oscap
   script:
     # Check if new version of OpenSCAP is available
     - apt update
@@ -74,7 +74,7 @@ build_oscap:
       - version.txt
       - oscap_*.deb
 test_oscap:
-  stage: test
+  stage: test_oscap
   script:
     - if [ ! -f version.txt ]; then
       echo "No new version of OpenSCAP is available";
@@ -88,7 +88,7 @@ test_oscap:
     - apt install -fy ./oscap_${openscap_version}.deb
     - oscap --version
 deploy_oscap:
-  stage: deploy
+  stage: deploy_oscap
   script:
     - if [ ! -f version.txt ]; then
       echo "No new version of OpenSCAP is available";
