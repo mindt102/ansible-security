@@ -1,7 +1,8 @@
 stages:
-  - build_oscap
-  - test_oscap
-  - deploy_oscap
+  - update_oscap
+  # - build_oscap
+  # - test_oscap
+  # - deploy_oscap
 
 default:
   image:
@@ -11,7 +12,7 @@ default:
     - docker
 
 build_oscap:
-  stage: build_oscap
+  stage: update_oscap
   script:
     # Check if new version of OpenSCAP is available
     - apt update
@@ -19,10 +20,9 @@ build_oscap:
     - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     - current_oscap_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3 | sed -E "s/v//")
     - 'if [ "$openscap_version" == "$current_oscap_version" ]; then
-      echo "No new version of OpenSCAP is available: $openscap_version";
+      echo "No new version of OpenSCAP is available. Current version: $current_oscap_version";
       exit 0;
       fi'
-    - echo "$openscap_version" > version.txt
     - 'echo "New version of OpenSCAP is available: $openscap_version"'
 
     # Install build dependencies
@@ -35,7 +35,6 @@ build_oscap:
 
     # Build OpenSCAP
     - mkdir -p /tmp/openscap-${openscap_version}/build
-    # - cd /tmp/openscap-${openscap_version}/build
     - cmake -DCMAKE_INSTALL_PREFIX=/usr -S /tmp/openscap-${openscap_version} -B /tmp/openscap-${openscap_version}/build
     - make -C /tmp/openscap-${openscap_version}/build install
 
@@ -60,41 +59,12 @@ build_oscap:
     - cp /usr/share/man/man8/oscap.8 /tmp/oscap_${openscap_version}/usr/share/man/man8/
     - dpkg-deb --build /tmp/oscap_${openscap_version}
 
-    - mv /tmp/oscap_${openscap_version}.deb .
-  artifacts:
-    paths:
-      - version.txt
-      - oscap_*.deb
-test_oscap:
-  stage: test_oscap
-  script:
-    - if [ ! -f version.txt ]; then
-      echo "No new version of OpenSCAP is available";
-      exit 0;
-      fi
-    - openscap_version=$(cat version.txt)
-    - 'echo "New version of OpenSCAP is available: $openscap_version"'
-    - apt update
-    - pwd
-    - ls -la
-    - apt install -fy ./oscap_${openscap_version}.deb
+    # Test deb package
+    - apt install -fy /tmp/oscap_${openscap_version}.deb
     - oscap --version
-deploy_oscap:
-  stage: deploy_oscap
-  script:
-    - if [ ! -f version.txt ]; then
-      echo "No new version of OpenSCAP is available";
-      exit 0;
-      fi
-    - 'echo "New version of OpenSCAP is available: $openscap_version"'
 
-    - openscap_version=$(cat version.txt)
-
-    - apt update; apt install -y git
-    - cp oscap_${openscap_version}.deb /tmp
+    # Push deb package to GitLab
     - cd /tmp
-    - pwd
-    - ls -la
     - git init
     - git remote add origin https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git
     - git config user.email "ci-bot@gitlab.example.com"
@@ -104,3 +74,45 @@ deploy_oscap:
     - git commit -m "Update oscap to version ${openscap_version}"
     - git tag -a "v${openscap_version}" -m "Update oscap to version ${openscap_version}"
     - git push origin v${openscap_version}
+#     - mv /tmp/oscap_${openscap_version}.deb .
+#   artifacts:
+#     paths:
+#       - version.txt
+#       - oscap_*.deb
+# test_oscap:
+#   stage: test_oscap
+#   script:
+#     - if [ ! -f version.txt ]; then
+#       echo "No new version of OpenSCAP is available";
+#       exit 0;
+#       fi
+#     - openscap_version=$(cat version.txt)
+#     - 'echo "New version of OpenSCAP is available: $openscap_version"'
+#     - apt updates
+#     - apt install -fy ./oscap_${openscap_version}.deb
+#     - oscap --version
+# deploy_oscap:
+#   stage: deploy_oscap
+#   script:
+#     - if [ ! -f version.txt ]; then
+#       echo "No new version of OpenSCAP is available";
+#       exit 0;
+#       fi
+#     - 'echo "New version of OpenSCAP is available: $openscap_version"'
+
+#     - openscap_version=$(cat version.txt)
+
+#     - apt update; apt install -y git
+#     - cp oscap_${openscap_version}.deb /tmp
+#     - cd /tmp
+#     - pwd
+#     - ls -la
+#     - git init
+#     - git remote add origin https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git
+#     - git config user.email "ci-bot@gitlab.example.com"
+#     - git config user.name "ci-bot"
+
+#     - git add oscap_${openscap_version}.deb
+#     - git commit -m "Update oscap to version ${openscap_version}"
+#     - git tag -a "v${openscap_version}" -m "Update oscap to version ${openscap_version}"
+#     - git push origin v${openscap_version}

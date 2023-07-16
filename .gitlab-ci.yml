@@ -3,11 +3,13 @@ variables:
   GIT_SSL_NO_VERIFY: 1
 
 stages:
-  - build_oscap
-  - test_oscap
-  - deploy_oscap
-  - build_ssg
-  - deploy_ssg
+  # - build_oscap
+  # - test_oscap
+  # - deploy_oscap
+  # - build_ssg
+  # - deploy_ssg
+  - update_oscap
+  - update_ssg
   - scan
 
 default:
