@@ -104,9 +104,10 @@ deploy_oscap:
 
     - openscap_version=$(cat version.txt)
     - printf "10.10.9.99\tgitlab.example.com\n" >> /etc/hosts
-    - export GIT_SSL_NO_VERIFY=1
 
     - apt update; apt install -y git
+    - cp oscap_${openscap_version}.deb /tmp
+    - cd /tmp
     - pwd
     - ls -la
     - git init
