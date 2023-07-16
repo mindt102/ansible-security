@@ -34,7 +34,6 @@ build_ssg:
 
     # Install OpenSCAP
     - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-    # - printf "10.10.9.99\tgitlab.example.com\n" >> /etc/hosts
     - git clone -b "v${openscap_version}" --depth 1 https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git
     - apt install -fy ./oscap/oscap_${openscap_version}.deb
 
@@ -56,10 +55,6 @@ build_ssg:
     paths:
       - version.txt
       - debian11/
-  allow_failure:
-    exit_codes:
-      - 0
-      - 2
 
 deploy_ssg:
   stage: deploy_ssg
