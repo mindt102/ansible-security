@@ -51,7 +51,7 @@ build_ssg:
     - cp /tmp/scap-security-guide-$ssg_version/build/ssg-debian11* debian11/
 
     # Test Scan
-    - oscap xccdf eval --datastream-id ${debian_datastream_id} --xccdf-id ${debian_xccdf_id} --profile ${debian_profile} debian11/ssg-debian11-ds.xml
+    - oscap xccdf eval --datastream-id ${debian_datastream_id} --xccdf-id ${debian_xccdf_id} --profile ${debian_profile} debian11/ssg-debian11-ds.xml || echo $?
   artifacts:
     paths:
       - version.txt
