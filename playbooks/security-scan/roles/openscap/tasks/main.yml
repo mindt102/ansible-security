@@ -6,11 +6,10 @@
 - name: Install OpenSCAP
   import_tasks: install.yml
   when: not openscap_installed.stat.exists
+# - name: Run OpenSCAP scan for debian
+#   import_tasks: debian-scan.yml
+#   when: ansible_distribution == "Debian"
 
-- name: Run OpenSCAP scan for debian
-  import_tasks: debian-scan.yml
-  when: ansible_distribution == "Debian"
-
-- name: Run OpenSCAP scan for ubuntu
-  import_tasks: ubuntu-scan.yml
-  when: ansible_distribution == "Ubuntu"
+# - name: Run OpenSCAP scan for ubuntu
+#   import_tasks: ubuntu-scan.yml
+#   when: ansible_distribution == "Ubuntu"

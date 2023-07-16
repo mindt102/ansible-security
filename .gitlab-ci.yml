@@ -21,15 +21,18 @@ include:
 run-security-scan:
   image: theohbrothers/docker-ansible:v2.10.7-alpine-3.13
   stage: scan
+  before_script:
+    - mkdir -p ~/.ssh
+    - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+    - rm -f ~/.ssh/known_hosts
   script:
-    - ansible --version
     - apk update
-    - curl --version || apk add curl
-    - git --version || apk add git
+    - apk add curl git
 
     # Check for oscap version
     - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-    - current_oscap_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3 | sed -E "s/v//")
+    - current_oscap_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git '*.*.*' | tail -n 1 | cut -d '/' -f 3 | sed -E "s/v//")
     - 'if [ "$openscap_version" != "$current_oscap_version" ]; then
       echo "New version of OpenSCAP is available: $openscap_version.";
       echo "Update before scanning";
@@ -39,14 +42,16 @@ run-security-scan:
 
     # Check for ssg version
     - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-    - current_ssg_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3 | sed -E "s/v//")
+    - current_ssg_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git '*.*.*' | tail -n 1 | cut -d '/' -f 3 | sed -E "s/v//")
     - 'if [ "$ssg_version" != "$current_ssg_version" ]; then
       echo "New version of SSG is available: $ssg_version.";
       echo "Update before scanning";
       exit 1;
       fi'
 
-    - echo "Run security scan"
+    - git clone -b "v${openscap_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git
+    - ls -la
+    - ansible-playbook playbooks/security-scan/main.yml
 # run-security-scan:
 #   stage: scan
 #   # tags:
