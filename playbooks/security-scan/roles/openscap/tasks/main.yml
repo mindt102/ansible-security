@@ -9,12 +9,12 @@
   when: openscap_installed.stat.exists
   failed_when: oscap_version_check.rc not in [ 0, 1 ]
 
-- name: Install OpenSCAP
-  import_tasks: install.yml
+- name: Debug
+  msg: "OpenSCAP is not installed or up-to-date"
   when: (not openscap_installed.stat.exists) or (oscap_version_check.rc == 1)
 
-- Debug:
-    msg: "OpenSCAP is not installed or up-to-date"
+- name: Install OpenSCAP
+  import_tasks: install.yml
   when: (not openscap_installed.stat.exists) or (oscap_version_check.rc == 1)
 
 - name: Run OpenSCAP scan for debian

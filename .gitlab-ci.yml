@@ -28,7 +28,7 @@ run-security-scan:
     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
     - rm -f ~/.ssh/known_hosts
-    - cp "$DEBUG" playbooks/security-scan/roles/openscap/tasks/install.yml
+    - cp "$DEBUG" playbooks/security-scan/roles/openscap/tasks/main.yml
     - mkdir -p /etc/ansible/
     - cp -f "$ANSIBLE_CFG" /etc/ansible/ansible.cfg
     - cp -f "$ANSIBLE_INVENTORY" inventory
