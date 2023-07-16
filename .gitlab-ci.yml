@@ -34,8 +34,8 @@ run-security-scan:
     - cat playbooks/security-scan/roles/openscap/tasks/install.yml
     - cat inventory
     - echo $ANSIBLE_CONFIG
-    - apk update
-    - apk add curl git
+    # - apk update
+    # - apk add curl git
 
     # # Check for oscap version
     # - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
@@ -56,7 +56,7 @@ run-security-scan:
     #   exit 1;
     #   fi'
 
-    - git clone -b "v${ssg_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git
+    # - git clone -b "v${ssg_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git
     - ls -la
     - ansible-config dump
     - ansible-config view
