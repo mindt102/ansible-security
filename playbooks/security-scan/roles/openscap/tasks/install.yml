@@ -71,5 +71,5 @@
   become: true
   apt:
     deb: "/tmp/oscap_{{ oscap_version }}.deb"
-    state: present
     update_cache: yes
+    # state: present
