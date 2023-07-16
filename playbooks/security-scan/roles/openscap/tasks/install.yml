@@ -63,6 +63,9 @@
 
 - name: Copy oscap debian package
   copy:
-    src: "oscap/oscap_{{ lookup('env', 'oscap_version') }}.deb"
+    src: "/tmp/oscap/"
     dest: "/tmp/"
     mode: 0644
+
+- name: Install oscap debian package
+  command: apt -fy install /tmp/oscap/oscap_*.deb
