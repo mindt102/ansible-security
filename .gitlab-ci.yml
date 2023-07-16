@@ -41,7 +41,7 @@ trigger_oscap:
   trigger:
     include: build_dependencies/oscap.yml
     strategy: depend
-  dependencies:
+  needs:
     - check_oscap
   rules:
     - if: '$update_oscap == "true"'
