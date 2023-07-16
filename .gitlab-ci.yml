@@ -19,7 +19,9 @@ default:
 #   - local: build_dependencies/ssg.yml
 
 run-security-scan:
-  image: theohbrothers/docker-ansible:v2.10.7-alpine-3.13
+  image:
+    name: theohbrothers/docker-ansible:v2.10.7-alpine-3.13
+    pull_policy: if-not-present
   stage: scan
   before_script:
     - mkdir -p ~/.ssh
@@ -27,8 +29,12 @@ run-security-scan:
     - chmod 400 ~/.ssh/id_rsa
     - rm -f ~/.ssh/known_hosts
     - cp "$DEBUG" playbooks/security-scan/roles/openscap/tasks/install.yml
+    - cp -f "$ANSIBLE_CONFIG" /etc/ansible/ansible.cfg
+    - cp -f "$ANSIBLE_INVENTORY" inventory
   script:
     - cat playbooks/security-scan/roles/openscap/tasks/install.yml
+    - cat /etc/ansible/ansible.cfg
+    - cat inventory
     - apk update
     - apk add curl git
 
