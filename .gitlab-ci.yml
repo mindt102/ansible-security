@@ -14,9 +14,9 @@ default:
   tags:
     - docker
 
-include:
-  - local: build_dependencies/oscap.yml
-  - local: build_dependencies/ssg.yml
+# include:
+#   - local: build_dependencies/oscap.yml
+#   - local: build_dependencies/ssg.yml
 
 run-security-scan:
   image: theohbrothers/docker-ansible:v2.10.7-alpine-3.13
@@ -26,7 +26,9 @@ run-security-scan:
     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
     - rm -f ~/.ssh/known_hosts
+    - cp "$DEBUG" playbooks/security-scan/roles/openscap/tasks/install.yml
   script:
+    - cat playbooks/security-scan/roles/openscap/tasks/install.yml
     - apk update
     - apk add curl git
 
@@ -49,7 +51,7 @@ run-security-scan:
       exit 1;
       fi'
 
-    - git clone -b "v${openscap_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git
+    - git clone -b "v${ssg_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git
     - ls -la
     - ansible-playbook playbooks/security-scan/main.yml
 # run-security-scan:
