@@ -3,6 +3,7 @@ variables:
 
 stages:
   - check
+  - trigger
   - build
   - test
   - deploy
@@ -32,12 +33,13 @@ check_oscap:
       fi'
     - echo "openscap_version=$openscap_version" >> oscap.env
     - echo "update_oscap=true" >> oscap.env
+    - cat oscap.env
   artifacts:
     reports:
       dotenv: oscap.env
 
 trigger_oscap:
-  stage: triggers
+  stage: trigger
   trigger:
     include: build_dependencies/oscap.yml
     strategy: depend
