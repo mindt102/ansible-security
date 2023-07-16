@@ -18,7 +18,7 @@ default:
     - docker
 
 include:
-  # - local: build_dependencies/oscap.yml
+  - local: build_dependencies/oscap.yml
   - local: build_dependencies/ssg.yml
 
 run-security-scan:
