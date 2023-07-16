@@ -55,8 +55,8 @@ run-security-scan:
     #   exit 1;
     #   fi'
 
-    # - git clone -b "v${ssg_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git
     - git clone -b "v${openscap_version}" --depth 1 https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git /tmp/oscap
+    - git clone -b "v${ssg_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git /tmp/ssg
     - ansible-playbook playbooks/security-scan/main.yml --extra-vars "oscap_version=${openscap_version}"
 # run-security-scan:
 #   stage: scan

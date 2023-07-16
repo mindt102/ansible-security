@@ -4,7 +4,7 @@
     dest: "/tmp/"
     mode: 0644
   with_fileglob:
-    - "/usr/local/share/xml/scap/ssg/content/ssg-debian*"
+    - "/tmp/ssg/debian11/*"
 
 - name: Run OpenSCAP scan
   become: true
