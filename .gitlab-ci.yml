@@ -2,6 +2,7 @@ variables:
   GIT_DEPTH: 10
 
 stages:
+  - check
   - build
   - test
   - deploy
@@ -14,15 +15,37 @@ default:
   tags:
     - docker
 
-include:
-  - local: build_dependencies/oscap.yml
+# include:
+#   - local: build_dependencies/oscap.yml
 
-# trigger_oscap:
-#   stage: triggers
-#   trigger:
-#     include: build_dependencies/oscap.yml
-#     strategy: depend
-#   when: always
+check_oscap:
+  stage: check
+  script:
+    # Check if new version of OpenSCAP is available
+    - apt update
+    - apt install -y curl git
+    - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    - current_oscap_version=$(git -c 'versionsort.suffix=-' ls-remote --exit-code --refs --sort='version:refname' --tags https://oauth2:$ACCESS_TOKEN@gitlab.example.com/root/oscap.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3 | sed -E "s/v//")
+    - 'if [ "$openscap_version" == "$current_oscap_version" ]; then
+      echo "No new version of OpenSCAP is available: $openscap_version";
+      exit 0;
+      fi'
+    - echo "openscap_version=$openscap_version" >> oscap.env
+    - echo "update_oscap=true" >> oscap.env
+  artifacts:
+    reports:
+      dotenv: oscap.env
+
+trigger_oscap:
+  stage: triggers
+  trigger:
+    include: build_dependencies/oscap.yml
+    strategy: depend
+  dependencies:
+    - check_oscap
+  rules:
+    - if: '$update_oscap == "true"'
+      when: always
 
 run-security-scan:
   stage: scan
