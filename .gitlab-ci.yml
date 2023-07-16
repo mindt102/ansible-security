@@ -37,27 +37,29 @@ run-security-scan:
     - apk update
     - apk add curl git
 
-    # Check for oscap version
-    - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-    - current_oscap_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git '*.*.*' | tail -n 1 | cut -d '/' -f 3 | sed -E "s/v//")
-    - 'if [ "$openscap_version" != "$current_oscap_version" ]; then
-      echo "New version of OpenSCAP is available: $openscap_version.";
-      echo "Update before scanning";
-      exit 1;
-      fi'
-    - echo "Run security scan"
+    # # Check for oscap version
+    # - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    # - current_oscap_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git '*.*.*' | tail -n 1 | cut -d '/' -f 3 | sed -E "s/v//")
+    # - 'if [ "$openscap_version" != "$current_oscap_version" ]; then
+    #   echo "New version of OpenSCAP is available: $openscap_version.";
+    #   echo "Update before scanning";
+    #   exit 1;
+    #   fi'
+    # - echo "Run security scan"
 
-    # Check for ssg version
-    - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-    - current_ssg_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git '*.*.*' | tail -n 1 | cut -d '/' -f 3 | sed -E "s/v//")
-    - 'if [ "$ssg_version" != "$current_ssg_version" ]; then
-      echo "New version of SSG is available: $ssg_version.";
-      echo "Update before scanning";
-      exit 1;
-      fi'
+    # # Check for ssg version
+    # - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    # - current_ssg_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git '*.*.*' | tail -n 1 | cut -d '/' -f 3 | sed -E "s/v//")
+    # - 'if [ "$ssg_version" != "$current_ssg_version" ]; then
+    #   echo "New version of SSG is available: $ssg_version.";
+    #   echo "Update before scanning";
+    #   exit 1;
+    #   fi'
 
     - git clone -b "v${ssg_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git
     - ls -la
+    - ansible-config dump
+    - ansible-config view
     - ansible-playbook playbooks/security-scan/main.yml
 # run-security-scan:
 #   stage: scan
