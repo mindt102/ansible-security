@@ -17,14 +17,13 @@ default:
   tags:
     - docker
 
-# include:
-#   - local: build_dependencies/oscap.yml
-#   - local: build_dependencies/ssg.yml
+include:
+  # - local: build_dependencies/oscap.yml
+  - local: build_dependencies/ssg.yml
 
 run-security-scan:
   stage: scan
   script:
-    - bash -c 'exit 2' || [[ $? == 2 ]] && echo "Error"
     - echo "Run security scan"
 # run-security-scan:
 #   stage: scan
