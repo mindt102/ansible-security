@@ -3,7 +3,7 @@
   roles:
     - role: "roles/openscap"
       vars:
-        openscap_version: "1.3.8"
+        # openscap_version: "1.3.8"
         openscap_url: "https://github.com/OpenSCAP/openscap/releases/download/{{ openscap_version }}/openscap-{{ openscap_version }}.tar.gz"
         openscap_install_dir: "/tmp/openscap-{{ openscap_version }}"
         debian:

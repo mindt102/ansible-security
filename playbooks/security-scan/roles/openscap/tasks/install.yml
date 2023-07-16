@@ -62,5 +62,7 @@
 #     chdir: "{{ openscap_install_dir }}/build"
 
 - name: Download oscap debian package
-  debug:
-    msg: "$openscap_version"
+  git:
+    repo: "https://oauth2:{{ lookup('env', 'OSCAP_ACCESS_TOKEN') }}@gitlab.example.com/root/oscap.git"
+    dest: "/tmp"
+    version: "lookup('env', 'oscap_version')"
