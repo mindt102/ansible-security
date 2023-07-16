@@ -24,7 +24,7 @@ default:
 run-security-scan:
   stage: scan
   script:
-    - exit 2 || echo $?
+    - exit 2 || [[ $? == 2 ]]
     - echo "Run security scan"
 # run-security-scan:
 #   stage: scan
