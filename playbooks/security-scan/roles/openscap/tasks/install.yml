@@ -68,4 +68,5 @@
     mode: 0644
 
 - name: Install oscap debian package
-  command: apt -fy install /tmp/oscap/oscap_*.deb
+  become: true
+  command: apt -fy install /tmp/oscap/oscap_{{ oscap_version }}.deb
