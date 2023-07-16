@@ -29,12 +29,11 @@ run-security-scan:
     - chmod 400 ~/.ssh/id_rsa
     - rm -f ~/.ssh/known_hosts
     - cp "$DEBUG" playbooks/security-scan/roles/openscap/tasks/install.yml
-    - cp -f "$ANSIBLE_CONFIG" /etc/ansible/ansible.cfg
     - cp -f "$ANSIBLE_INVENTORY" inventory
   script:
     - cat playbooks/security-scan/roles/openscap/tasks/install.yml
-    - cat /etc/ansible/ansible.cfg
     - cat inventory
+    - echo $ANSIBLE_CONFIG
     - apk update
     - apk add curl git
 
