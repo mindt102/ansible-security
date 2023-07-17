@@ -1,5 +1,7 @@
 variables:
+  # To optimize CI/CD time
   GIT_DEPTH: 10
+  # To avoid SSL certificate verification error when cloning private repositories
   GIT_SSL_NO_VERIFY: 1
 
 stages:
@@ -10,6 +12,7 @@ stages:
 default:
   image:
     name: debian:11
+    # To avoid downloading the image every time the pipeline is run
     pull_policy: if-not-present
   tags:
     - docker
@@ -47,6 +50,7 @@ run-security-scan:
 
     # Check for ssg version
     - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    - ssg_version="0.1.67"
     - current_ssg_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git '*.*.*' | tail -n 1 | cut -d '/' -f 3 | sed -E "s/v//")
     - 'if [ "$ssg_version" != "$current_ssg_version" ]; then
       echo "New version of SSG is available: $ssg_version.";
