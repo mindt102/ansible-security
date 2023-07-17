@@ -14,9 +14,9 @@ default:
   tags:
     - docker
 
-# include:
-#   - local: build_dependencies/oscap.yml
-#   - local: build_dependencies/ssg.yml
+include:
+  - local: build_dependencies/oscap.yml
+  - local: build_dependencies/ssg.yml
 
 run-security-scan:
   image:
@@ -28,12 +28,10 @@ run-security-scan:
     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
     - rm -f ~/.ssh/known_hosts
-    - cp "$DEBUG" playbooks/security-scan/roles/openscap/tasks/main.yml
     - mkdir -p /etc/ansible/
     - cp -f "$ANSIBLE_CFG" /etc/ansible/ansible.cfg
     - cp -f "$ANSIBLE_INVENTORY" inventory
   script:
-    - cat playbooks/security-scan/roles/openscap/tasks/main.yml
     - apk update
     - apk add curl git
 
@@ -61,17 +59,3 @@ run-security-scan:
   artifacts:
     paths:
       - reports
-# run-security-scan:
-#   stage: scan
-#   # tags:
-#   #   - shell
-#   before_script:
-#     - mkdir -p ~/.ssh
-#     - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
-#     - chmod 400 ~/.ssh/id_rsa
-#     # - rm -f ~/.ssh/known_hosts
-#   needs: ["trigger_oscap"]
-#   script:
-#     - ansible-playbook playbooks/security-scan/main.yml
-# after_script:
-#   - rm ~/.ssh/id_rsa
