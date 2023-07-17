@@ -1,84 +1,11 @@
-# - name: Install OpenSCAP dependencies
-#   become: true
-#   apt:
-#     name: "{{ item }}"
-#     state: latest
-#     update_cache: yes
-#   with_items:
-#     - cmake
-#     - libdbus-1-dev
-#     - libdbus-glib-1-dev
-#     - libcurl4-openssl-dev
-#     - libgcrypt20-dev
-#     - libselinux1-dev
-#     - libxslt1-dev
-#     - libgconf2-dev
-#     - libacl1-dev
-#     - libblkid-dev
-#     - libcap-dev
-#     - libxml2-dev
-#     - libldap2-dev
-#     - libpcre3-dev
-#     - python3-dev
-#     - swig
-#     - libxml-parser-perl
-#     - libxml-xpath-perl
-#     - libperl-dev
-#     - libbz2-dev
-#     - librpm-dev
-#     - g++
-#     - libapt-pkg-dev
-#     - libyaml-dev
-#     - libxmlsec1-dev
-#     - libxmlsec1-openssl
-#     - git
-
-# - name: Download OpenSCAP sources
-#   get_url:
-#     url: "{{ openscap_url }}"
-#     dest: "{{ openscap_install_dir }}.tar.gz"
-#     mode: 0644
-
-# - name: Create OpenSCAP install directory
-#   file:
-#     path: "{{ openscap_install_dir }}"
-#     state: directory
-
-# - name: Extract OpenSCAP sources
-#   unarchive:
-#     src: "{{ openscap_install_dir }}.tar.gz"
-#     dest: "{{ openscap_install_dir }}/.."
-#     remote_src: yes
-
-# - name: Create OpenSCAP build directory
-#   file:
-#     path: "{{ openscap_install_dir }}/build"
-#     state: directory
-
-# - name: Build OpenSCAP
-#   become: true
-#   shell: cmake -DCMAKE_INSTALL_PREFIX=/usr ../ && make && make install
-#   args:
-#     chdir: "{{ openscap_install_dir }}/build"
-
 - name: Copy oscap debian package
   copy:
     src: "/tmp/oscap/oscap_{{ oscap_version }}.deb"
     dest: "/tmp/"
     mode: 0644
 
-- name: Debug copy
-  debug:
-    msg: "oscap_{{ oscap_version }}.deb copied to /tmp/"
-  when: ansible_distribution == "Debian"
-
 - name: Install oscap debian package
   become: true
   apt:
     deb: "/tmp/oscap_{{ oscap_version }}.deb"
     update_cache: true
-    force: true
-
-- name: Debug install
-  become: true
-  command: "ls -l /usr/bin/oscap"
