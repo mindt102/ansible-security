@@ -19,6 +19,7 @@ build_ssg:
     - apt update
     - apt install -y curl git
     - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    - ssg_version='0.1.67'
     - current_ssg_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3 | sed -E "s/v//")
     - 'if [ "$ssg_version" == "$current_ssg_version" ]; then
       echo "No new version of SSG is available: $ssg_version";
@@ -26,11 +27,7 @@ build_ssg:
       fi'
     - 'echo "New version of SSG is available: $ssg_version"'
 
-    # Install SSG dependencies
-    - apt install -y bzip2 cmake python3-pip libxml2-utils ninja-build xsltproc
-    - pip install jinja2 pyyaml pytest pytest-cov json2html yamlpath mypy openpyxl pandas cmakelint sphinx sphinxcontrib-jinjadomain sphinx_rtd_theme myst_parser
-
-    # Install OpenSCAP
+    # Check if new version of OpenSCAP is available
     - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     - current_oscap_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3 | sed -E "s/v//")
     - 'if [ "$openscap_version" != "$current_oscap_version" ]; then
@@ -38,6 +35,12 @@ build_ssg:
       echo "Update before building SSG.";
       exit 1;
       fi'
+
+    # Install SSG dependencies
+    - apt install -y bzip2 cmake python3-pip libxml2-utils ninja-build xsltproc
+    - pip install jinja2 pyyaml pytest pytest-cov json2html yamlpath mypy openpyxl pandas cmakelint sphinx sphinxcontrib-jinjadomain sphinx_rtd_theme myst_parser
+
+    # Install OpenSCAP
     - git clone -b "v${openscap_version}" --depth 1 https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git
     - apt install -fy ./oscap/oscap_${openscap_version}.deb
 
