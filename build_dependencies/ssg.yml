@@ -40,7 +40,7 @@ build_ssg:
       fi'
 
     # Install SSG dependencies
-    - apt install -y bzip2 cmake python3-pip libxml2-utils ninja-build xsltproc
+    - apt install -y bzip2 cmake python3-pip libxml2-utils ninja-build xsltproc expat
     - pip install jinja2 pyyaml pytest pytest-cov json2html yamlpath mypy openpyxl pandas cmakelint sphinx sphinxcontrib-jinjadomain sphinx_rtd_theme myst_parser
 
     # Install OpenSCAP
