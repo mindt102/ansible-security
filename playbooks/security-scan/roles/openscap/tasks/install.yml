@@ -76,8 +76,8 @@
   become: true
   apt:
     deb: "/tmp/oscap_{{ oscap_version }}.deb"
-    update_cache: yes
-  become_method: sudo
+    update_cache: true
+    clean: true
 
 - name: Debug install
   command: "ls -l /usr/bin/oscap"
