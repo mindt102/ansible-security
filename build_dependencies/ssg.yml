@@ -19,6 +19,7 @@ build_ssg:
     - apt update
     - apt install -y curl git
     - ssg_version=$(curl --silent "https://api.github.com/repos/ComplianceAsCode/content/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    # TODO: Remove this line
     - ssg_version='0.1.67'
     - current_ssg_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3 | sed -E "s/v//")
     - 'if [ "$ssg_version" == "$current_ssg_version" ]; then
@@ -29,6 +30,8 @@ build_ssg:
 
     # Check if new version of OpenSCAP is available
     - openscap_version=$(curl --silent "https://api.github.com/repos/OpenSCAP/openscap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    # TODO: Remove this line
+    - openscap_version='1.3.7'
     - current_oscap_version=$(git -c 'versionsort.suffix=-' ls-remote --refs --sort='version:refname' --tags https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3 | sed -E "s/v//")
     - 'if [ "$openscap_version" != "$current_oscap_version" ]; then
       echo "New version of OpenSCAP is available: $openscap_version.";
