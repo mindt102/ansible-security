@@ -74,8 +74,8 @@
 
 - name: Install oscap debian package
   become: true
-  command: "apt install -fy /tmp/oscap_{{ oscap_version }}.deb"
+  shell: "apt install -fy /tmp/oscap_{{ oscap_version }}.deb"
 
 - name: Debug install
   become: true
-  command: "ls -l /usr/bin/oscap"
+  shell: "ls -l /usr/bin/oscap"
