@@ -1,0 +1,5 @@
+# This is an example of a hosts file that would be used as a file variable "$ANSIBLE_INVENTORY"
+# and copy to an inventory file on the Gitlab Runner.
+# This approach provide more flexibilty to the Gitlab CI/CD pipeline.
+10.0.0.11
+10.0.0.12

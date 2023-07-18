@@ -1,3 +1,5 @@
+# This is an example for the ansible.cfg file that would be used as a file variable "$ANSIBLE_CFG" in Gitlab CI Pipeline.
+# ansible.cfg would be copied to /etc/ansible/ansible.cfg on the Gitlab Runner to avoid using a world writable directory.
 [defaults]
 inventory = inventory
 remote_user = vagrant
