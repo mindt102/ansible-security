@@ -15,7 +15,6 @@
 - name: Download report files
   fetch:
     src: "{{ item }}"
-    # src: "/tmp/report.html"
     dest: "{{ lookup('env', 'PWD') }}/reports/{{ inventory_hostname }}/"
     flat: yes
   with_items:
@@ -23,11 +22,3 @@
     - "/tmp/arf.xml"
     - "/tmp/report.html"
   when: result.rc in [ 0, 2 ]
-
-- name: Debug inventory_hostname
-  debug:
-    msg: "{{ inventory_hostname }}"
-
-- name: Debug playbook dir
-  debug:
-    msg: "{{ lookup('env', 'PWD') }}"
