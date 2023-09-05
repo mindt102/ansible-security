@@ -14,14 +14,14 @@
 
 - name: Download report files
   fetch:
-    # src: "{{ item }}"
-    src: "/tmp/report.html"
-    dest: "reports/{{ inventory_hostname }}/"
+    src: "{{ item }}"
+    # src: "/tmp/report.html"
+    dest: "{{ lookup('env', 'PWD') }}/reports/{{ inventory_hostname }}/"
     flat: yes
-  # with_items:
-  #   - "/tmp/xccdf-results.xml"
-  #   - "/tmp/arf.xml"
-  #   - "/tmp/report.html"
+  with_items:
+    - "/tmp/xccdf-results.xml"
+    - "/tmp/arf.xml"
+    - "/tmp/report.html"
   when: result.rc in [ 0, 2 ]
 
 - name: Debug inventory_hostname
@@ -30,4 +30,4 @@
 
 - name: Debug playbook dir
   debug:
-    msg: "{{ playbook_dir }}"
+    msg: "{{ lookup('env', 'PWD') }}"
