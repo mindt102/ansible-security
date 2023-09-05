@@ -71,3 +71,4 @@ update_oscap:
     - git commit -m "Update oscap to version ${openscap_version}"
     - git tag -a "v${openscap_version}" -m "Update oscap to version ${openscap_version}"
     - git push origin v${openscap_version}
+  when: manual

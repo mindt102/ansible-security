@@ -70,3 +70,4 @@ update_ssg:
     - git commit -m "Update SSG to version $ssg_version"
     - git tag -a "v$ssg_version" -m "Update SSG to version $ssg_version"
     - git push origin v$ssg_version
+  when: manual
