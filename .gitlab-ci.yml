@@ -65,7 +65,7 @@ run-security-scan:
     - git clone -b "v${openscap_version}" --depth 1 https://oauth2:$OSCAP_ACCESS_TOKEN@gitlab.example.com/root/oscap.git /tmp/oscap
     - git clone -b "v${ssg_version}" --depth 1 https://oauth2:$SSG_ACCESS_TOKEN@gitlab.example.com/root/ssg.git /tmp/ssg
 
-    - ansible-playbook -i $ANSIBLE_INVENTORY --private-key "$SSH_PRIVATE_KEY" playbooks/security-scan/main.yml --extra-vars "oscap_version=${openscap_version}"
+    - ansible-playbook -i $ANSIBLE_INVENTORY --private-key "$SSH_PRIVATE_KEY" playbooks/scan_compliance.yml --extra-vars "oscap_version=${openscap_version}"
   when: manual
   artifacts:
     paths:

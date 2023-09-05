@@ -3,3 +3,6 @@
 # This approach provide more flexibilty to the Gitlab CI/CD pipeline.
 10.0.0.11
 10.0.0.12
+
+[wazuh-server]
+10.0.0.13

@@ -1,7 +1,7 @@
 - name: Manage VMs
   hosts: all
   roles:
-    - role: "roles/openscap"
+    - role: "security-scan/roles/openscap"
       vars:
         debian:
           datastream_id: "scap_org.open-scap_datastream_from_xccdf_ssg-debian11-xccdf.xml"
