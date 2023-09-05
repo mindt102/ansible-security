@@ -15,8 +15,8 @@
 - name: Download report files
   fetch:
     src: "{{ item }}"
-    dest: "reports/prefix-{{ inventory_hostname }}"
-    flat: yes
+    dest: "reports/{{ inventory_hostname }}/"
+    # flat: yes
   with_items:
     - "/tmp/xccdf-results.xml"
     - "/tmp/arf.xml"
