@@ -22,3 +22,7 @@
     - "/tmp/arf.xml"
     - "/tmp/report.html"
   when: result.rc in [ 0, 2 ]
+
+- name: Debug inventory_hostname
+  debug:
+    msg: "{{ inventory_hostname }}"
