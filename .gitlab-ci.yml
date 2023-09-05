@@ -72,6 +72,6 @@ install-wazuh:
   extends: .setup_ansible
   script:
     - apk update
-    - apk add bash
+    - apk add bash openssl
     - ansible-playbook -i $ANSIBLE_INVENTORY --private-key "$SSH_PRIVATE_KEY" playbooks/install_wazuh_indexer_and_dashboard.yml
   # when: manual
