@@ -8,6 +8,7 @@ stages:
   - oscap
   - ssg
   - scan
+  - install-wazuh
 
 default:
   image:
@@ -32,14 +33,6 @@ run-security-scan:
     pull_policy: if-not-present
   stage: scan
   extends: .setup_ansible
-  # before_script:
-  #   - mkdir -p ~/.ssh
-  #   - cp -f "$SSH_PRIVATE_KEY" ~/.ssh/id_rsa
-  #   - chmod 400 ~/.ssh/id_rsa
-  #   - rm -f ~/.ssh/known_hosts
-  #   - mkdir -p /etc/ansible/
-  #   - cp -f "$ANSIBLE_CFG" /etc/ansible/ansible.cfg
-  #   - cp -f "$ANSIBLE_INVENTORY" inventory
   script:
     - apk update
     - apk add curl git
@@ -70,3 +63,12 @@ run-security-scan:
   artifacts:
     paths:
       - "reports/"
+
+install-wazuh:
+  image:
+    name: theohbrothers/docker-ansible:v2.10.7-alpine-3.13
+    pull_policy: if-not-present
+  stage: install-wazuhs
+  extends: .setup_ansible
+  script:
+    - ansible-playbook -i $ANSIBLE_INVENTORY --private-key "$SSH_PRIVATE_KEY" playbooks/install_wazuh_indexer_and_dashboard.yml
