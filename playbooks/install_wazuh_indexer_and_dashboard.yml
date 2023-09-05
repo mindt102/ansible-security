@@ -1,6 +1,6 @@
 - hosts: wazuh-server
   roles:
-    - role: wazuh-ansible/roles/wazuh/wazuh-indexer
+    - role: ../wazuh-ansible/roles/wazuh/wazuh-indexer
       perform_installation: false
   vars:
     indexer_node_master: true
@@ -16,8 +16,8 @@
   become: true
   become_user: root
   roles:
-    - role: wazuh-ansible/roles/wazuh/wazuh-indexer
-    - role: wazuh-ansible/roles/wazuh/wazuh-dashboard
+    - role: ../wazuh-ansible/roles/wazuh/wazuh-indexer
+    - role: ../wazuh-ansible/roles/wazuh/wazuh-dashboard
 
   vars:
     single_node: true
