@@ -1,3 +1,4 @@
 [submodule "playbooks/wazuh-ansible"]
 	path = playbooks/wazuh-ansible
 	url = https://github.com/wazuh/wazuh-ansible.git
+	branch = stable
