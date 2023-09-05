@@ -68,7 +68,7 @@ install-wazuh:
   image:
     name: theohbrothers/docker-ansible:v2.10.7-alpine-3.13
     pull_policy: if-not-present
-  stage: install-wazuhs
+  stage: install-wazuh
   extends: .setup_ansible
   script:
     - ansible-playbook -i $ANSIBLE_INVENTORY --private-key "$SSH_PRIVATE_KEY" playbooks/install_wazuh_indexer_and_dashboard.yml
